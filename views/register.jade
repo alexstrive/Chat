@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .container(style="margin-top: 250px;")
+        .col-xs-10.col-xs-offset-1.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+            .panel.panel-primary
+                .panel-heading
+                    h3.panel-title.text-center Регистрация
+                .panel-body
+                    form(action="/register" method="POST")
+                        .row
+                            .form-group.col-xs-6
+                                label.control-label(for="firstName") Имя
+                                input.form-control(name="firstName" type="text" id="firstName" required)
+                            .form-group.col-xs-6
+                                label.control-label(for="lastName") Фамилия
+                                input.form-control(name="lastName" type="text" id="lastName" required)
+                        .form-group
+                            label.control-label(for="login") Логин
+                            input.form-control(name="login" type="text" id="login" required)
+                        .row
+                            .form-group.col-xs-6
+                                label.control-label(for="password") Пароль
+                                input.form-control(name="password" type="password" id="password" required)
+                            .form-group.col-xs-6
+                                label.control-label(for="repeatPassword") Повторите пароль
+                                input.form-control(name="repeatPassword" type="password" id="repeatPassword" required)
+                        .form-group
+                            label.control-label(for="email") Email
+                            input.form-control(name="email" type="email" id="email" required)
+                        .text-center
+                            button.btn.btn-danger(type="submit") Зарегистрироваться

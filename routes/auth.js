@@ -10,35 +10,45 @@ let mn = require("../magicnumbers.json"); // for salt
 let router = express.Router();
 let re = new RegExp("[_+-.,!@#$%<>^&*()\\\/:] ");
 
-router.get('/', function(req, res, next) {
-    console.log("Сессия: " + req.session.user);
-    res.render('auth', {});
+router.get('/', function (req, res) {
+
+    let session = req.session;
+    let sessionError = session.error;
+    let sessionUser = session.user;
+
+    if (sessionUser) {
+        console.log(sessionUser);
+    }
+    else {
+        console.log(sessionError);
+        console.log("Вошел неавторизованный пользователь!");
+    }
+
+    res.render('auth', {error: sessionError});
 });
 
 router.post("/", (req, res) => {
 
-    console.log("Сессия: " + req.session.user);
-
-    // salt needed for security reasons
-    let salt = Date.now() + mn.number;
-
-    db.UserModel.findOne({login: req.body.login}, (err, user) => {
-        "use strict";
+    db.UserModel.findOne({login: req.body.login, password: req.body.password}, (err, user) => {
         if (err) {
             console.log(err);
+            res.render("error", {error: err});
         }
 
-        if (req.body.password == user.password)
-        {
-            req.session.user = {};
-            req.session.user["login"] = user.login;
-            req.session.user["password"] = user.password;
+        if (user) {
 
-            console.log(req.session.user)
-        } 
+            req.session.user = {
+                login: user.login,
+                password: user.password
+            };
 
-        res.send(req.session.user["login"]);
-        return;
+            req.session.error = undefined;
+            res.redirect("/auth");
+        }
+        else {
+            req.session.error = "Неверный пароль или логин!";
+            res.redirect("/auth");
+        }
     });
 });
 

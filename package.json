@@ -15,6 +15,7 @@
     "serve-favicon": "~2.3.0",
     "stylus": "0.54.5",
     "mongojs": "latest",
-    "express-session": "latest"
+    "express-session": "latest",
+    "socket.io": "latest"
   }
 }

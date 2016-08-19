@@ -12,32 +12,24 @@ let re = new RegExp("[_+-.,!@#$%<>^&*()\\\/     :]");
 
 // Display register form
 router.get("/", (req, res) => {
-    res.render('register', {});
+    let session = req.session;
+    res.render('register', {error: session.error.registry});
 });
 
 // Handle register data
 router.post("/", (req, res) => {
 
+    let session = req.session;
+
     if (req.body.password !== req.body.repeatPassword) {
-        res.render("error", {
-            message: "Ошибка",
-            error: {
-                status: 500,
-                stack: "Пароли не соответсвуют"
-            }
-        });
+        session.error.registry = "Пароли не соответсвуют!";
+        res.redirect("/register");
         return;
     }
-
-    // salt needed for security reasons
-    let dateRegister = Date.now();
-    let salt = dateRegister + mn.number;
-    console.log("Пароль: " + salt.toString() + (req.body.password).toString());
-
+    
     // warn! hash cannot used again!
     let hash = crypto.createHash("sha512");
-    hash.update(salt.toString() + (req.body.password).toString());
-
+    hash.update((mn.salt).toString() + (req.body.password).toString());
     let generatedPassword = hash.digest("hex");
 
     let user = new db.UserModel({
@@ -45,13 +37,11 @@ router.post("/", (req, res) => {
         lastName: req.body.lastName,
         login: req.body.login,
         email: req.body.email,
-        password: generatedPassword,
-        dateRegister: dateRegister
+        password: generatedPassword
     });
 
-    user.save();
-
-    res.redirect("/")
+  //  user.save();
+    res.redirect("/register")
 });
 
 module.exports = router;

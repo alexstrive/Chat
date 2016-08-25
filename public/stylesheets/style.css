@@ -1,0 +1,17 @@
+.msgs {
+  overflow: scroll;
+}
+.msgs .msg p {
+  margin-right: 10px;
+  display: inline;
+}
+#msg-form {
+  background-color: #ffe4c4;
+  padding: 10px 10px;
+}
+#msg-form #msg-content {
+  width: 100%;
+}
+#msg-form #msg-send {
+  width: 100%;
+}

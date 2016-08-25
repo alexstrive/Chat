@@ -32,12 +32,11 @@ server.on('listening', onListening);
 var io = require("socket.io")(server);
 
 io.on("connection", (socket) => {
-    console.log("connected!");
-    socket.emit("message", socket.id);
-    socket.broadcast.emit("message", "hello world!")
+    console.log(socket + " was connected!");
 
-    socket.on("message", (from, message) => {
-        console.log(`Message from ${from}: ${message}`);
+    socket.on("msg-chat", (time, from, message) => {
+        console.log(`${time} Message from ${from}: ${message}`);
+        io.emit("msg-chat", time, from, message);
     })
 });
 
@@ -102,3 +101,4 @@ function onListening() {
 }
 
 module.exports.io = io;
+global.$socketMap = {};

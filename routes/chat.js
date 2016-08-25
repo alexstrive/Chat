@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
         return;
     }
 
-    res.render("chat", {});
+    res.render("chat", {login: session.user.login});
 });
 
 module.exports = router;

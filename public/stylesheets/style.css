@@ -1,17 +1,23 @@
 .msgs {
-  overflow: scroll;
+  padding: 0 10px;
+  overflow: auto;
+  max-height: 820px;
 }
 .msgs .msg p {
   margin-right: 10px;
   display: inline;
 }
 #msg-form {
-  background-color: #ffe4c4;
+  background-color: #006f37;
   padding: 10px 10px;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
-#msg-form #msg-content {
-  width: 100%;
-}
+#msg-form #msg-content,
 #msg-form #msg-send {
+  padding: 0;
   width: 100%;
 }

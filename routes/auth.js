@@ -1,5 +1,3 @@
-// Native modules
-let crypto = require("crypto");
 // Community modules
 let express = require("express");
 // Project modules
@@ -8,7 +6,6 @@ let mn = require("../magicnumbers.json"); // for security
 
 // Variables
 let router = express.Router();
-let re = new RegExp("[_+-.,!@#$%<>^&*()\\\/:] ");
 
 router.get('/', function (req, res) {
 
@@ -37,22 +34,23 @@ router.post("/", (req, res) => {
         // handle errors
         if (err) {
             res.render("error", {error: err});
+            return;
         }
 
-        if (user) {
-
-            session.user = {
-                login: user.login,
-                password: user.password
-            };
-
-            session.error.auth = undefined;
-            res.redirect("/auth");
-        }
-        else {
+        if (!user) {
             session.error.auth = "Неверный пароль или логин!";
             res.redirect("/auth");
+            return;
         }
+
+        session.user = {
+            login: user.login,
+            password: user.password
+        };
+
+        session.error.auth = undefined;
+        res.redirect("/auth");
+
     });
 });
 

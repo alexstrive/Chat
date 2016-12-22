@@ -1,2 +1,1 @@
-# chat
-Chat on Node.JS
+# Just Simple Chat
